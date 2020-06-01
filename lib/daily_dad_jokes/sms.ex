@@ -22,7 +22,7 @@ defmodule DailyDadJokes.Sms do
       {:ok, %{status_code: status_code, body: body}} when status_code in 200..299 ->
         Jason.decode(body)
 
-      {:ok, %{status_code: _, body: body} = response} ->
+      {:ok, %{status_code: _, body: body} = _response} ->
         {:error, Jason.decode!(body)}
 
       {:error, reason} ->
