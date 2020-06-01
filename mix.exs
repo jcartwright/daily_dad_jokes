@@ -5,7 +5,7 @@ defmodule DailyDadJokes.MixProject do
     [
       app: :daily_dad_jokes,
       version: "0.1.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -41,6 +41,7 @@ defmodule DailyDadJokes.MixProject do
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
+      {:httpoison, "~> 1.6.0"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:absinthe, "~> 1.5.0-rc.4"},
@@ -49,7 +50,9 @@ defmodule DailyDadJokes.MixProject do
       {:bcrypt_elixir, "~> 2.0"},
       {:guardian, "~> 2.0"},
       {:ex_phone_number, "~> 0.2"},
-      {:credo, "~> 1.4", only: [:dev, :test], runtime: false}
+      {:timex, "~> 3.6"},
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:ecto_explain, "~> 0.1.2"}
     ]
   end
 

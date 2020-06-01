@@ -11,9 +11,10 @@ defmodule DailyDadJokes.Application do
       # Start the Ecto repository
       DailyDadJokes.Repo,
       # Start the endpoint when the application starts
-      DailyDadJokesWeb.Endpoint
+      DailyDadJokesWeb.Endpoint,
       # Starts a worker by calling: DailyDadJokes.Worker.start_link(arg)
       # {DailyDadJokes.Worker, arg},
+      {DailyDadJokes.Jokester, [name: DailyDadJokes.Jokester]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

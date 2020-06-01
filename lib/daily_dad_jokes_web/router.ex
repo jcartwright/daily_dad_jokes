@@ -9,18 +9,30 @@ defmodule DailyDadJokesWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
+  # pipeline :graphql do
+  #   plug Plugs.Graphql.Context
+  # end
+
+  scope "/graphql" do
+    # pipe_through :graphql
+
+    forward "/",
+            Absinthe.Plug,
+            schema: DailyDadJokesWeb.Schema
+  end
+
+  scope "/graphiql" do
+    # pipe_through :graphql
+
+    forward "/",
+            Absinthe.Plug.GraphiQL,
+            schema: DailyDadJokesWeb.Schema,
+            interface: :simple
   end
 
   scope "/", DailyDadJokesWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/*path", PageController, :index
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", DailyDadJokesWeb do
-  #   pipe_through :api
-  # end
 end
