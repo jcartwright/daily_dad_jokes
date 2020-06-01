@@ -1,7 +1,7 @@
 FROM elixir:1.10-alpine AS builder
 
 # Install build dependencies
-RUN apk add --update git build-base nodejs yarn python
+RUN apk add --update git build-base npm yarn python
 
 # Prepare build directory
 RUN mkdir /app
@@ -45,3 +45,5 @@ RUN chown -R nobody: /app
 USER nobody
 
 ENV HOME=/app
+
+CMD ["bin/daily_dad_jokes", "start"]
