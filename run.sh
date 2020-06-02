@@ -3,9 +3,10 @@
 set -e
 
 # wait for postgres to become available
-until psql -h $POSTGRES_HOST -U $POSTGRES_USER -c '\q' 2>/dev/null; do
-  >&2 echo "Waiting for postgres to start"
-  sleep 1
+while ! pg_isready -h $POSTGRES_HOST
+do
+  echo "Waiting for postgres to accept connections"
+  sleep 2
 done
 
 # run any pending migrations

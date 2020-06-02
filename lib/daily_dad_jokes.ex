@@ -67,7 +67,9 @@ defmodule DailyDadJokes do
     |> Map.from_struct()
     |> Map.drop([:id])
     |> Map.merge(%{
-      joke_id: joke.id,
+      # Joke ids from the API can be either integers or UUIDs, so we need to
+      # cast them to_string to ensure they are handled properly.
+      joke_id: to_string(joke.id),
       sent_on: Date.utc_today(),
       recipient_count: 0
     })
@@ -102,7 +104,9 @@ defmodule DailyDadJokes do
       |> JokeHistory.unused_joke_ids_since(last_year)
 
     Enum.filter(jokes, fn joke ->
-      joke.id in unused_joke_ids
+      # Joke ids from the API can be either integers or UUIDs, so we need to
+      # cast them all to_string to compare them correctly.
+      to_string(joke.id) in unused_joke_ids
     end)
   end
 

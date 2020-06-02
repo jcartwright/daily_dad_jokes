@@ -10,6 +10,12 @@ defmodule DailyDadJokesWeb.Schema do
   alias DailyDadJokesWeb.Resolvers
 
   query do
+    @desc "Get a joke by its id"
+    field :joke, :joke do
+      arg :id, non_null(:id)
+      resolve(&Resolvers.Core.get_joke/3)
+    end
+
     @desc "Get a list of dad jokes (up to 50)"
     field :random_jokes, list_of(:joke) do
       arg :count, :integer

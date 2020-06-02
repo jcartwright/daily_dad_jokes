@@ -4,7 +4,7 @@ defmodule DailyDadJokes.Repo.Migrations.CreateCoreJokeHistory do
   def change do
     create table(:joke_history, primary_key: false) do
       add :id, :binary_id, primary_key: true
-      add :joke_id, :integer
+      add :joke_id, :string
       add :setup, :string
       add :punchline, :string
       add :type, :string

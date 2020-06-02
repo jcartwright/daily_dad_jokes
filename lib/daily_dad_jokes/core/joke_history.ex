@@ -11,7 +11,8 @@ defmodule DailyDadJokes.Core.JokeHistory do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "joke_history" do
-    field :joke_id, :integer
+    # Turns out joke_id can be an integer or UUID
+    field :joke_id, :string
     field :punchline, :string
     field :setup, :string
     field :type, :string
@@ -20,7 +21,9 @@ defmodule DailyDadJokes.Core.JokeHistory do
   end
 
   def unused_joke_ids_since(joke_ids, date) do
-    joke_ids = List.wrap(joke_ids)
+    joke_ids =
+      List.wrap(joke_ids)
+      |> Enum.map(&Kernel.to_string/1)
 
     # Which of the provided joke_ids have not been used since date?
     used_ids =

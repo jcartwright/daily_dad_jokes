@@ -4,6 +4,10 @@ defmodule DailyDadJokesWeb.Resolvers.Core do
   """
   alias DailyDadJokes.Api
 
+  def get_joke(_parent, %{id: id}, _info) do
+    Api.get_joke(id)
+  end
+
   def get_random_jokes(_parent, args, _info) do
     # TODO: Implement caching to avoid API rate limits
     Api.get_random_jokes(args)
