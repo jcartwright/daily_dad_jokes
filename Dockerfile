@@ -33,6 +33,9 @@ RUN mix compile
 COPY rel rel
 RUN mix release
 
+# Copy the startup script
+COPY ./run.sh ./
+
 # Prepare release image
 FROM alpine AS app
 RUN apk add --update bash openssl
