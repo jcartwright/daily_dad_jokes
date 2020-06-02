@@ -1,0 +1,17 @@
+version: '3.5'
+services:
+  daily_dad_jokes:
+    image: jcartwright/daily_dad_jokes:latest
+    container_name: daily_dad_jokes
+    env_file: .env.docker
+    depends_on:
+      - postgres
+    ports:
+      - "4000:4000"
+
+  postgres:
+    image: postgres:10-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_DB: "daily_dad_jokes_prod"
+      POSTGRES_PASSWORD: "postgres"

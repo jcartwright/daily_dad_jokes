@@ -47,3 +47,4 @@ USER nobody
 ENV HOME=/app
 
 CMD ["bin/daily_dad_jokes", "start"]
+EXPOSE 4000
