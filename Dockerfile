@@ -38,17 +38,19 @@ COPY ./run.sh ./
 
 # Prepare release image
 FROM alpine AS app
-RUN apk add --update bash openssl
+RUN apk add --update bash openssl postgresql-client
 
 RUN mkdir /app
 WORKDIR /app
 
 COPY --from=builder /app/_build/prod/rel/daily_dad_jokes ./
 COPY --from=builder /app/run.sh ./
+# RUN chmod +x run.sh
 
 RUN chown -R nobody: /app
 USER nobody
 
 ENV HOME=/app
 
-CMD ["run.sh"]
+# Execute "run.sh" command with /bin/sh -c
+CMD ./run.sh
