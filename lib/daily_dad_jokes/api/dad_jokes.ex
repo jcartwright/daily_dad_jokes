@@ -1,12 +1,16 @@
-defmodule DailyDadJokes.Api do
+defmodule DailyDadJokes.Api.DadJokes do
   @moduledoc """
   Wraps access to the Rapid API > Dad Jokes API.
 
   See: https://rapidapi.com/KegenGuyll/api/dad-jokes/endpoints
   """
+  @behaviour DailyDadJokes.Behaviours.JokesApi
+
   require Logger
   @logger_prefix "[dad-jokes-api]"
+  @timeout 10_000
 
+  @impl true
   def get_random_jokes(params) do
     host = System.get_env("RAPID_API_DAD_JOKES_HOST")
     count = Map.take(params, [:count]) |> get_valid_count()
@@ -14,7 +18,7 @@ defmodule DailyDadJokes.Api do
 
     Logger.info("#{@logger_prefix} #{query}")
 
-    HTTPoison.get(query, headers())
+    HTTPoison.get(query, headers(), recv_timeout: @timeout)
     |> case do
       {:ok, %{status_code: 200, body: body} = response} ->
         log_rate_limit_info(response)

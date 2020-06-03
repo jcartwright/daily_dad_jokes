@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: server
+          image: jcartwright/daily_dad_jokes:latest
+          ports:
+            - containerPort: 4000
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_HOST
+              value: postgres-cluster-ip-service
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB
+              value: daily_dad_jokes_prod
+            - name: POSTGRES_POOL_SIZE
+              value: "20"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres_password
+                  key: POSTGRES_PASSWORD
+
