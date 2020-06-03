@@ -17,8 +17,8 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t jcartwright/daily_dad_jokes .
 
-# deploy:
-#   provider: script
-#   script: bash ./deploy.sh
-#     on:
-#       branch: master
+deploy:
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: master
