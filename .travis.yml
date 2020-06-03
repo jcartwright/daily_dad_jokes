@@ -18,9 +18,6 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t jcartwright/daily_dad_jokes .
 
-script:
-  # TODO: - docker run jcartwright/daily_dad_jokes mix test
-
 deploy:
   provider: script
   script: bash ./deploy.sh
