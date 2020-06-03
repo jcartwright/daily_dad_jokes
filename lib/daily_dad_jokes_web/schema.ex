@@ -10,7 +10,7 @@ defmodule DailyDadJokesWeb.Schema do
   alias DailyDadJokesWeb.Resolvers
 
   query do
-    @desc "Get a joke by its id"
+    @desc "Get the current joke of the day"
     field :joke_of_the_day, :joke do
       resolve(&Resolvers.Core.get_joke_of_the_day/3)
     end
