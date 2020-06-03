@@ -10,7 +10,7 @@ use Mix.Config
 config :daily_dad_jokes,
   ecto_repos: [DailyDadJokes.Repo],
   generators: [binary_id: true],
-  jokester: DailyDadJokes.Jokester,
+  jokester_module: DailyDadJokes.Jokester,
   jokes_api: DailyDadJokes.Api.DadJokes,
   sms_gateway: DailyDadJokes.Api.Messagebird
 

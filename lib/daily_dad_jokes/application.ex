@@ -5,6 +5,9 @@ defmodule DailyDadJokes.Application do
 
   use Application
 
+  # Choose process implementation based on environment config
+  @jokester_module Application.get_env(:daily_dad_jokes, :jokester_module)
+
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
@@ -14,7 +17,7 @@ defmodule DailyDadJokes.Application do
       DailyDadJokesWeb.Endpoint,
       # Starts a worker by calling: DailyDadJokes.Worker.start_link(arg)
       # {DailyDadJokes.Worker, arg},
-      {DailyDadJokes.Jokester, [name: DailyDadJokes.Jokester]}
+      {@jokester_module, [name: DailyDadJokes.Jokester]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

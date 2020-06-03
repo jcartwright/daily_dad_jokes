@@ -3,7 +3,7 @@ defmodule DailyDadJokes.Api.MockSms do
   @behaviour DailyDadJokes.Behaviours.SmsGateway
 
   @impl true
-  def send_sms(recipients, body) do
+  def send_sms(_recipients, _body) do
     {:ok, response()}
   end
 

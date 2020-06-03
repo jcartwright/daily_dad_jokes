@@ -1,7 +1,7 @@
 use Mix.Config
 
 config :daily_dad_jokes,
-  jokester: DailyDadJokes.Mockster,
+  jokester_module: DailyDadJokes.Mockster,
   jokes_api: DailyDadJokes.Api.MockJokes,
   sms_gateway: DailyDadJokes.Api.MockSms
 

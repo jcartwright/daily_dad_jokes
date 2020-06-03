@@ -4,7 +4,7 @@ defmodule DailyDadJokes.Api.Messagebird do
 
   See: https://developers.messagebird.com/api/sms-messaging/
   """
-  @behaviours DailyDadJokes.Behaviours.SmsGateway
+  @behaviour DailyDadJokes.Behaviours.SmsGateway
 
   @impl true
   def send_sms(recipients, body) do
