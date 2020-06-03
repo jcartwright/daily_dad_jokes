@@ -1,5 +1,10 @@
 use Mix.Config
 
+config :daily_dad_jokes,
+  jokester: DailyDadJokes.Mockster,
+  jokes_api: DailyDadJokes.Api.MockJokes,
+  sms_gateway: DailyDadJokes.Api.MockSms
+
 # Configure your database
 config :daily_dad_jokes, DailyDadJokes.Repo,
   username: "postgres",
@@ -15,4 +20,6 @@ config :daily_dad_jokes, DailyDadJokesWeb.Endpoint,
   server: false
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger,
+  level: :debug,
+  handle_sasl_reports: false

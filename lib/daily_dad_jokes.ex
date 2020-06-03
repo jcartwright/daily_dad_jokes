@@ -9,7 +9,6 @@ defmodule DailyDadJokes do
   require Logger
   @logger_prefix "[daily-dad-jokes]"
 
-  alias DailyDadJokes.Api
   alias DailyDadJokes.Core.{Joke, JokeHistory}
   alias DailyDadJokes.Repo
 
@@ -31,9 +30,11 @@ defmodule DailyDadJokes do
   end
 
   def select_joke_of_the_day do
-    Logger.debug("#{@logger_prefix} selecting joke of the day")
+    jokes_api = Application.get_env(:daily_dad_jokes, :jokes_api)
 
-    case Api.get_random_jokes(%{count: 10}) do
+    Logger.debug("#{@logger_prefix} fetching joke of the day with #{jokes_api}")
+
+    case jokes_api.get_random_jokes(%{count: 10}) do
       {:ok, jokes} ->
         jokes
         |> within_general_category()
