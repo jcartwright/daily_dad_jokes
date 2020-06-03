@@ -44,7 +44,8 @@ defmodule DailyDadJokes.Core.JokeHistory do
 
   def used_since(query \\ __MODULE__, date) do
     from jh in query,
-      where: jh.sent_on >= ^date
+      where: jh.sent_on >= ^date,
+      order_by: [desc: jh.sent_on]
   end
 
   @doc false

@@ -1,7 +1,7 @@
 version: '3.5'
 services:
   daily_dad_jokes:
-    image: jcartwright/daily_dad_jokes:latest
+    image: jcartwright/daily_dad_jokes
     container_name: daily_dad_jokes
     env_file: .env.docker
     depends_on:

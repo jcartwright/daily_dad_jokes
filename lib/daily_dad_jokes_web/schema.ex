@@ -11,21 +11,13 @@ defmodule DailyDadJokesWeb.Schema do
 
   query do
     @desc "Get a joke by its id"
-    field :joke, :joke do
-      arg :id, non_null(:id)
-      resolve(&Resolvers.Core.get_joke/3)
+    field :joke_of_the_day, :joke do
+      resolve(&Resolvers.Core.get_joke_of_the_day/3)
     end
 
-    @desc "Get a list of dad jokes (up to 50)"
-    field :random_jokes, list_of(:joke) do
-      arg :count, :integer
-      resolve(&Resolvers.Core.get_random_jokes/3)
-    end
-
-    @desc "Get a registered user"
-    field :user, :user do
-      arg :id, non_null(:id)
-      resolve(&Resolvers.Accounts.find_user/3)
+    @desc "Get the joke history for the last N days"
+    field :joke_history, list_of(:joke_history) do
+      resolve(&Resolvers.Core.get_joke_history/3)
     end
   end
 end

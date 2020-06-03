@@ -6,27 +6,7 @@ defmodule DailyDadJokes.Api do
   """
   require Logger
   @logger_prefix "[dad-jokes-api]"
-
-  def get_joke(joke_id) do
-    host = System.get_env("RAPID_API_DAD_JOKES_HOST")
-    query = "https://#{host}/jokes/#{joke_id}"
-
-    Logger.info("#{@logger_prefix} #{query}")
-
-    HTTPoison.get(query, headers())
-    |> case do
-      {:ok, %{status_code: 200, body: body} = response} ->
-        log_rate_limit_info(response)
-        Jason.decode(body, keys: :atoms)
-
-      {:ok, %{status_code: _, body: body} = response} ->
-        log_rate_limit_info(response)
-        {:error, Jason.decode!(body)["message"]}
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:error, reason}
-    end
-  end
+  @timeout 10_000
 
   def get_random_jokes(params) do
     host = System.get_env("RAPID_API_DAD_JOKES_HOST")
@@ -35,7 +15,7 @@ defmodule DailyDadJokes.Api do
 
     Logger.info("#{@logger_prefix} #{query}")
 
-    HTTPoison.get(query, headers())
+    HTTPoison.get(query, headers(), [recv_timeout: @timeout])
     |> case do
       {:ok, %{status_code: 200, body: body} = response} ->
         log_rate_limit_info(response)
