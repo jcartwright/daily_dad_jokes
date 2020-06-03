@@ -45,7 +45,6 @@ WORKDIR /app
 
 COPY --from=builder /app/_build/prod/rel/daily_dad_jokes ./
 COPY --from=builder /app/run.sh ./
-# RUN chmod +x run.sh
 
 RUN chown -R nobody: /app
 USER nobody
