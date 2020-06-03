@@ -29,7 +29,7 @@ defmodule DailyDadJokes.Core.JokeHistory do
     used_ids =
       from(jh in used_since(date),
         select: jh.joke_id,
-        where: jh.joke_id in (^joke_ids)
+        where: jh.joke_id in ^joke_ids
       )
       |> Repo.all()
 

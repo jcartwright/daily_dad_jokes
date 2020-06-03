@@ -45,8 +45,9 @@ defmodule DailyDadJokes.Core.JokeHistoryTest do
 
   test "used_on/2" do
     yesterday = Timex.now() |> Timex.shift(days: -1)
+
     assert %JokeHistory{} =
-      JokeHistory.used_on(yesterday)
-      |> Repo.one()
+             JokeHistory.used_on(yesterday)
+             |> Repo.one()
   end
 end

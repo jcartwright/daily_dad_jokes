@@ -40,5 +40,4 @@ defmodule DailyDadJokes.Api.Messagebird do
       "content-type": "application/json"
     ]
   end
-
 end

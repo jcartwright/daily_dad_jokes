@@ -35,7 +35,7 @@ alias DailyDadJokes.Core.Subscriber
     phone_number: "+19403957020",
     time_zone: "America/Chicago",
     verified_at: NaiveDateTime.utc_now()
-  },
+  }
 ]
 |> Enum.each(fn subscriber ->
   Subscriber.changeset(subscriber)

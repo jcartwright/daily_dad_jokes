@@ -18,7 +18,7 @@ defmodule DailyDadJokes.Api.DadJokes do
 
     Logger.info("#{@logger_prefix} #{query}")
 
-    HTTPoison.get(query, headers(), [recv_timeout: @timeout])
+    HTTPoison.get(query, headers(), recv_timeout: @timeout)
     |> case do
       {:ok, %{status_code: 200, body: body} = response} ->
         log_rate_limit_info(response)
@@ -73,5 +73,4 @@ defmodule DailyDadJokes.Api.DadJokes do
 
     Logger.info("#{@logger_prefix} #{remaining} of #{limit} requests remaining")
   end
-
 end
