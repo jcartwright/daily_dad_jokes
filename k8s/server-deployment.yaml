@@ -18,6 +18,8 @@ spec:
           ports:
             - containerPort: 4000
           env:
+            - name: PORT
+              value: "4000"
             - name: POSTGRES_USER
               value: postgres
             - name: POSTGRES_HOST
@@ -33,4 +35,9 @@ spec:
                 secretKeyRef:
                   name: pgpassword
                   key: POSTGRES_PASSWORD
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: secretkeybase
+                  key: SECRET_KEY_BASE
 
