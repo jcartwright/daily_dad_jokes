@@ -24,6 +24,13 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
+            - name: MESSAGEBIRD_HOST
+              value: rest.messagebird.com
+            - name: MESSAGEBIRD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: messagebirdapikey
+                  key: MESSAGEBIRD_API_KEY
             - name: PORT
               value: "4000"
             - name: POSTGRES_HOST
@@ -41,6 +48,13 @@ spec:
               value: "20"
             - name: POSTGRES_USER
               value: postgres
+            - name: RAPID_API_DAD_JOKES_HOST
+              value: dad-jokes.p.rapidapi.com
+            - name: RAPID_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: rapidapikey
+                  key: RAPID_API_KEY
             - name: RELEASE_COOKIE
               value: rimshot
             - name: SECRET_KEY_BASE
