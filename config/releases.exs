@@ -2,6 +2,8 @@
 import Config
 
 secret_key_base = System.fetch_env!("SECRET_KEY_BASE")
+_app_host = System.fetch_env!("APP_HOST")
+_release_cookie = System.fetch_env!("RELEASE_COOKIE")
 
 pg_user = System.fetch_env!("POSTGRES_USER")
 pg_pass = System.fetch_env!("POSTGRES_PASSWORD")

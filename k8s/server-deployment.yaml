@@ -18,26 +18,35 @@ spec:
           ports:
             - containerPort: 4000
           env:
+            - name: APP_HOST
+              value: dailydadjokes.club
+            - name: HOST_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
             - name: PORT
               value: "4000"
-            - name: POSTGRES_USER
-              value: postgres
             - name: POSTGRES_HOST
               value: postgres-cluster-ip-service
             - name: POSTGRES_PORT
               value: "5432"
             - name: POSTGRES_DB
               value: daily_dad_jokes_prod
-            - name: POSTGRES_POOL_SIZE
-              value: "20"
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: pgpassword
                   key: POSTGRES_PASSWORD
+            - name: POSTGRES_POOL_SIZE
+              value: "20"
+            - name: POSTGRES_USER
+              value: postgres
+            - name: RELEASE_COOKIE
+              value: rimshot
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
                   name: secretkeybase
                   key: SECRET_KEY_BASE
-
+            - name: SERVICE_NAME
+              value: dailydadjokes.default.svc.cluster.local
