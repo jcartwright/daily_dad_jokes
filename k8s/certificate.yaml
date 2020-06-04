@@ -1,9 +1,9 @@
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
-  name: daily_dad_jokes_tls
+  name: dailydadjokes-tls
 spec:
-  secretName: daily_dad_jokes_club
+  secretName: dailydadjokes-club
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
