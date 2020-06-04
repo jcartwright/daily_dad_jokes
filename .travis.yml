@@ -17,6 +17,12 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t jcartwright/daily_dad_jokes .
 
+language: elixir
+elixir:
+  - '1.10'
+otp_release:
+  - '22.3'
+
 deploy:
   provider: script
   script: bash ./deploy.sh
