@@ -1,5 +1,6 @@
 services:
   - docker
+  - postgresql
 env:
   global:
     - SHA=$(git rev-parse HEAD)
@@ -22,6 +23,9 @@ elixir:
   - '1.10'
 otp_release:
   - '22.3'
+
+before_script:
+  - psql -c 'create database daily_dad_jokes_test;' -U postgres
 
 deploy:
   provider: script
