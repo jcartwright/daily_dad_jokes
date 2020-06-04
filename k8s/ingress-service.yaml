@@ -5,12 +5,26 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 spec:
+  tls:
+    - hosts:
+        - dailydadjokes.club
+        - www.dailydadjokes.club
+      secretName: dailydadjokes-club
   rules:
-    - http:
+    - host: dailydadjokes.club
+      http:
         paths:
           - path: /?(.*)
             backend:
               serviceName: server-cluster-ip-service
               servicePort: 4000
-
+    - host: www.dailydadjokes.club
+      http:
+        paths:
+          - path: /?(.*)
+            backend:
+              serviceName: server-cluster-ip-service
+              servicePort: 4000
