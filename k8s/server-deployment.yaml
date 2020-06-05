@@ -20,7 +20,7 @@ spec:
           env:
             - name: APP_HOST
               value: dailydadjokes.club
-            - name: HOST_NAME
+            - name: HOSTNAME
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
