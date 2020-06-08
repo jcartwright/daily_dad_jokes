@@ -21,5 +21,5 @@ config :daily_dad_jokes, DailyDadJokesWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger,
-  level: :debug,
+  level: :warn,
   handle_sasl_reports: false
