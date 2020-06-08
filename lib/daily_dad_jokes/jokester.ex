@@ -34,25 +34,7 @@ defmodule DailyDadJokes.Jokester do
 
   def handle_continue(:setup_joke_of_the_day, state) do
     Logger.debug("#{@logger_prefix} handle_continue :setup_joke_of_the_day")
-
-    with {:ok, joke} <- DailyDadJokes.find_or_create_joke_of_the_day(),
-         {:ok, joke_history} <- DailyDadJokes.save_joke_history(joke) do
-      # Schedule the next daily setup
-      next_setup_delay = calculate_next_setup_delay(Timex.now())
-      Process.send_after(self(), :setup_joke_of_the_day, next_setup_delay)
-
-      # Update the process state to be the newly created joke_history
-      {:noreply, joke_history, {:continue, :schedule_next_run}}
-    else
-      {:error, :timeout} ->
-        # Retry attempt (might be a better way?)
-        Process.send_after(self(), :setup_joke_of_the_day, 1000)
-        {:noreply, state}
-
-      error ->
-        Logger.error("#{@logger_prefix} unable to setup the joke of the day\n#{inspect(error)}")
-        {:noreply, state}
-    end
+    do_daily_setup(state)
   end
 
   def handle_continue(:schedule_next_run, state) do
@@ -73,6 +55,11 @@ defmodule DailyDadJokes.Jokester do
     {:noreply, state, {:continue, :schedule_next_run}}
   end
 
+  def handle_info(:setup_joke_of_the_day, state) do
+    Logger.debug("#{@logger_prefix} handle_info :setup_joke_of_the_day")
+    do_daily_setup(state)
+  end
+
   ## Private Helpers
 
   defp calculate_next_delivery_delay(now) do
@@ -89,5 +76,28 @@ defmodule DailyDadJokes.Jokester do
     |> Timex.shift(days: 1)
     |> Timex.set(hour: 0, minute: 0, second: 0)
     |> Timex.diff(now, :milliseconds)
+  end
+
+  defp do_daily_setup(state) do
+    with {:ok, joke} <- DailyDadJokes.find_or_create_joke_of_the_day(),
+         {:ok, joke_history} <- DailyDadJokes.save_joke_history(joke) do
+      # Schedule the next daily setup
+      next_setup_delay = calculate_next_setup_delay(Timex.now())
+      Process.send_after(self(), :setup_joke_of_the_day, next_setup_delay)
+
+      # Update the process state to be the newly created joke_history and
+      # setup the next delivery scheduler.
+      {:noreply, joke_history, {:continue, :schedule_next_run}}
+    else
+      {:error, :timeout} ->
+        Logger.warn("#{@logger_prefix} retrying daily setup")
+        # Retry attempt (might be a better way?)
+        Process.send_after(self(), :setup_joke_of_the_day, 1000)
+        {:noreply, state}
+
+      error ->
+        Logger.error("#{@logger_prefix} unable to setup the joke of the day\n#{inspect(error)}")
+        {:noreply, state}
+    end
   end
 end

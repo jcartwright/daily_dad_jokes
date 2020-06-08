@@ -22,7 +22,7 @@ config :daily_dad_jokes, DailyDadJokes.Repo,
   pool_size: 10
 
 # Do not print debug messages in production
-config :logger, level: :info
+config :logger, level: :debug
 
 # ## SSL Support
 #
