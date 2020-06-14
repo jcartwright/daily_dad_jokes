@@ -5,13 +5,13 @@ services:
     container_name: daily_dad_jokes
     env_file: .env.docker
     depends_on:
-      - postgres
+      - daily_dad_jokes_db
     ports:
       - "4000:4000"
 
-  postgres:
+  daily_dad_jokes_db:
     image: postgres:10-alpine
-    container_name: postgres
+    container_name: daily_dad_jokes_db
     environment:
       POSTGRES_DB: "daily_dad_jokes_prod"
       POSTGRES_PASSWORD: "postgres"
