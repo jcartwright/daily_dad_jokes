@@ -16,23 +16,27 @@ alias DailyDadJokes.Core.Subscriber
   # Me
   %{
     phone_number: "+19402179962",
+    time_of_day: 9,
     time_zone: "America/Chicago",
     verified_at: NaiveDateTime.utc_now()
   },
   # Google Voice (unverified)
   %{
     phone_number: "+19402684073",
+    time_of_day: 9,
     time_zone: "America/Chicago"
   },
   # Abigail
   %{
     phone_number: "+19402221216",
+    time_of_day: 11,
     time_zone: "America/Chicago",
     verified_at: NaiveDateTime.utc_now()
   },
   # Ashton
   %{
     phone_number: "+19403957020",
+    time_of_day: 13,
     time_zone: "America/Chicago",
     verified_at: NaiveDateTime.utc_now()
   }

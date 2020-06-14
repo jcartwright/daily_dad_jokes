@@ -48,8 +48,28 @@ defmodule DailyDadJokes.Jokester do
   def handle_info(:deliver_for_time_zone, state) do
     Logger.debug("#{@logger_prefix} handle_info :deliver_for_time_zone")
 
-    # TODO: select verified subscribers and send them the joke via SMS
-    # and update the recipient_count...
+    case DailyDadJokes.find_subscribers_for_delivery_window() do
+      [] ->
+        Logger.info("#{@logger_prefix} no subscribers in the current window")
+        :noop
+
+      subscribers ->
+        Logger.info(
+          "#{@logger_prefix} #{Enum.count(subscribers)} subscriber(s) in the current window"
+        )
+
+        # Deliver today's joke to the subscribers in the current window
+        results =
+          DailyDadJokes.deliver_joke_to_subscribers(
+            %{
+              setup: state.setup,
+              punchline: state.punchline
+            },
+            subscribers
+          )
+
+        # Count the successful deliveries and update the recipient count
+    end
 
     # Schedule the next run/delivery
     {:noreply, state, {:continue, :schedule_next_run}}

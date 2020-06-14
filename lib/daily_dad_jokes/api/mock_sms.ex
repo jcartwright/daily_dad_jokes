@@ -3,39 +3,38 @@ defmodule DailyDadJokes.Api.MockSms do
   @behaviour DailyDadJokes.Behaviours.SmsGateway
 
   @impl true
-  def send_sms(_recipients, _body) do
-    {:ok, response()}
+  def send_sms(recipient, body) do
+    # Simulate a random timeout in development
+    delay = Enum.random(1..6) * 1000
+    Process.sleep(delay)
+
+    # Return :ok | :error response
+    case toggle(recipient) do
+      0 -> {:ok, response(recipient, body)}
+      _ -> {:error, response(recipient, body)}
+    end
   end
 
-  defp response do
+  defp response(recipient, body) do
+    id = Ecto.UUID.generate() |> String.replace("-", "")
+
     %{
-      id: "e8077d803532c0b5937c639b60216938",
-      href: "https://rest.messagebird.com/messages/e8077d803532c0b5937c639b60216938",
-      direction: "mt",
-      type: "sms",
-      originator: "YourName",
-      body: "This is a test message",
-      reference: nil,
-      validity: nil,
-      gateway: nil,
-      typeDetails: %{},
-      datacoding: "plain",
-      mclass: 1,
-      scheduledDatetime: nil,
-      createdDatetime: "2016-05-03T14:26:57+00:00",
-      recipients: %{
-        totalCount: 1,
-        totalSentCount: 1,
-        totalDeliveredCount: 0,
-        totalDeliveryFailedCount: 0,
-        items: [
-          %{
-            recipient: 31_612_345_678,
-            status: "sent",
-            statusDatetime: "2016-05-03T14:26:57+00:00"
-          }
-        ]
-      }
+      id: id,
+      body: body,
+      recipient: recipient,
+      date_created: NaiveDateTime.utc_now(),
+      status: "sent"
     }
+  end
+
+  defp toggle(recipient) do
+    recipient
+    |> String.slice(2, 10)
+    |> Integer.parse()
+    |> case do
+      {val, _} -> val
+      _ -> 0
+    end
+    |> Integer.mod(3)
   end
 end

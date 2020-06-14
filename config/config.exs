@@ -12,7 +12,7 @@ config :daily_dad_jokes,
   generators: [binary_id: true],
   jokester_module: DailyDadJokes.Jokester,
   jokes_api: DailyDadJokes.Api.DadJokes,
-  sms_gateway: DailyDadJokes.Api.Messagebird
+  sms_gateway: DailyDadJokes.Api.Twilio
 
 # Configures the endpoint
 config :daily_dad_jokes, DailyDadJokesWeb.Endpoint,
@@ -28,6 +28,11 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :ex_twilio,
+  account_sid: {:system, "TWILIO_ACCOUNT_SID"},
+  auth_token: {:system, "TWILIO_AUTH_TOKEN"},
+  default_number: {:system, "TWILIO_DEFAULT_NUMBER"}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

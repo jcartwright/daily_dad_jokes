@@ -1,5 +1,8 @@
 use Mix.Config
 
+config :daily_dad_jokes,
+  sms_gateway: DailyDadJokes.Api.MockSms
+
 # Configure your database
 config :daily_dad_jokes, DailyDadJokes.Repo,
   username: "postgres",

@@ -9,7 +9,7 @@ defmodule DailyDadJokes do
   require Logger
   @logger_prefix "[daily-dad-jokes]"
 
-  alias DailyDadJokes.Core.{Joke, JokeHistory}
+  alias DailyDadJokes.Core.{Joke, JokeHistory, Subscriber}
   alias DailyDadJokes.Repo
 
   def find_or_create_joke_of_the_day do
@@ -94,6 +94,48 @@ defmodule DailyDadJokes do
       on_conflict: [set: [recipient_count: joke_history.recipient_count]],
       conflict_target: :id
     )
+  end
+
+  def find_subscribers_for_delivery_window(now \\ Timex.now()) do
+    # Get a distinct list of time zones & time of days from all verified subscribers
+    delivery_windows =
+      Subscriber.delivery_windows()
+      |> Repo.all()
+
+    # Determine if we're in the delivery window for any subscribers
+    current_delivery_windows =
+      delivery_windows
+      |> Enum.reduce([], fn [time_of_day, time_zone] = window, acc ->
+        case Timex.Timezone.convert(now, time_zone) do
+          %{hour: ^time_of_day} -> [window | acc]
+          _ -> acc
+        end
+      end)
+
+    # Get verified subscribers in the current delivery window(s)
+    current_delivery_windows
+    |> Enum.reduce([], fn [time_of_day, time_zone], acc ->
+      subscribers =
+        Subscriber.verified()
+        |> Subscriber.in_time_zone(time_zone)
+        |> Subscriber.at_time_of_day(time_of_day)
+        |> Repo.all()
+
+      [subscribers | acc]
+    end)
+    |> List.flatten()
+  end
+
+  def deliver_joke_to_subscribers(joke, subscribers) when is_list(subscribers) do
+    sms_gateway = Application.get_env(:daily_dad_jokes, :sms_gateway)
+    body = "#{joke.setup}\n\n#{joke.punchline}"
+
+    subscribers
+    |> Task.async_stream(
+      &sms_gateway.send_sms(&1.phone_number, body),
+      on_timeout: :kill_task
+    )
+    |> Enum.zip(subscribers)
   end
 
   defp unused_in_past_year(jokes) do

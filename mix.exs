@@ -43,7 +43,7 @@ defmodule DailyDadJokes.MixProject do
       {:gettext, "~> 0.11"},
       {:httpoison, "~> 1.6.0"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"},
+      {:plug_cowboy, "~> 2.3"},
       {:absinthe, "~> 1.5.0-rc.4"},
       {:absinthe_phoenix, "~> 1.5.0-rc.0"},
       {:absinthe_plug, "~> 1.5.0-rc.2"},
@@ -51,6 +51,7 @@ defmodule DailyDadJokes.MixProject do
       {:guardian, "~> 2.0"},
       {:ex_phone_number, "~> 0.2"},
       {:timex, "~> 3.6"},
+      {:ex_twilio, "~> 0.8.1"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ecto_explain, "~> 0.1.2"}
     ]
